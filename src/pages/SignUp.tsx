@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 
 function SignUp() {
@@ -8,18 +8,26 @@ function SignUp() {
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
   const [submitted, setSubmitted] = useState(false)
+  const navigate = useNavigate()
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault()
     setError(null)
     setLoading(true)
 
-    const { error: signUpError } = await supabase.auth.signUp({ email, password })
+    const { data, error: signUpError } = await supabase.auth.signUp({ email, password })
 
     setLoading(false)
 
     if (signUpError) {
       setError(signUpError.message)
+      return
+    }
+
+    // If email confirmation is turned off in Supabase, signUp already
+    // returns an active session — skip the "check your email" step.
+    if (data.session) {
+      navigate('/dashboard', { replace: true })
       return
     }
 
