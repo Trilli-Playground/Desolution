@@ -11,21 +11,32 @@ function ContactForm() {
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault()
-    setError(null)
-    setLoading(true)
 
-    const { error: insertError } = await supabase
-      .from('contact_messages')
-      .insert({ email, phone: phone || null, message })
-
-    setLoading(false)
-
-    if (insertError) {
-      setError("Something went wrong sending that — mind trying again?")
+    const trimmedMessage = message.trim()
+    if (!trimmedMessage) {
+      setError('Looks like the message is empty.')
       return
     }
 
-    setSent(true)
+    setError(null)
+    setLoading(true)
+
+    try {
+      const { error: insertError } = await supabase
+        .from('contact_messages')
+        .insert({ email: email.trim(), phone: phone.trim() || null, message: trimmedMessage })
+
+      if (insertError) {
+        setError("Something went wrong sending that — mind trying again?")
+        return
+      }
+
+      setSent(true)
+    } catch {
+      setError("Something went wrong sending that — mind trying again?")
+    } finally {
+      setLoading(false)
+    }
   }
 
   if (sent) {

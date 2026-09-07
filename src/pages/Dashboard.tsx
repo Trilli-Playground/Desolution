@@ -18,18 +18,26 @@ function Dashboard() {
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    supabase
-      .from('contact_messages')
-      .select('id, email, phone, message, created_at')
-      .order('created_at', { ascending: false })
-      .then(({ data, error: fetchError }) => {
-        setLoading(false)
+    const loadMessages = async () => {
+      try {
+        const { data, error: fetchError } = await supabase
+          .from('contact_messages')
+          .select('id, email, phone, message, created_at')
+          .order('created_at', { ascending: false })
+
         if (fetchError) {
           setError(fetchError.message)
           return
         }
         setMessages(data ?? [])
-      })
+      } catch {
+        setError('Could not load messages — mind refreshing?')
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadMessages()
   }, [])
 
   return (
