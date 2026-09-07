@@ -317,6 +317,30 @@ a {
   font-size: 1.05rem;
 }
 
+.contact-card {
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
+  border-radius: 20px;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.contact-card h3 {
+  text-align: center;
+  font-size: 1.3rem;
+  margin-bottom: 8px;
+}
+
+.contact-card > p {
+  text-align: center;
+  margin: 0;
+}
+
 /* Footer */
 
 .footer {
@@ -405,14 +429,17 @@ a {
   font-size: 0.98rem;
 }
 
-.auth-card label {
+.auth-card label,
+.contact-card label {
   text-align: left;
   font-size: 0.85rem;
   color: var(--text-dim);
   margin-bottom: 6px;
 }
 
-.auth-card input {
+.auth-card input,
+.contact-card input,
+.contact-card textarea {
   width: 100%;
   margin-bottom: 20px;
   padding: 12px 14px;
@@ -424,7 +451,14 @@ a {
   font-family: inherit;
 }
 
-.auth-card input:focus {
+.contact-card textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.auth-card input:focus,
+.contact-card input:focus,
+.contact-card textarea:focus {
   outline: none;
   border-color: var(--accent);
 }
@@ -453,4 +487,55 @@ a {
 
 .auth-switch a {
   color: var(--accent);
+}
+
+/* Dashboard */
+
+.dashboard-page {
+  padding-top: 60px;
+  padding-bottom: 60px;
+}
+
+.dashboard-card {
+  max-width: 480px;
+}
+
+.messages-card {
+  max-width: 560px;
+  text-align: left;
+}
+
+.messages-card h2 {
+  font-size: 1.3rem;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.message-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.message-item {
+  border: 1px solid var(--surface-border);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.message-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 0.82rem;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+
+.message-item p {
+  color: var(--text);
+  font-size: 0.95rem;
 }

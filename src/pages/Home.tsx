@@ -2,8 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { supabase } from '../lib/supabase'
-
-const CONTACT_EMAIL = 'dominik.knieriemen@gmail.com'
+import ContactForm from '../components/ContactForm'
 
 const NAV_LINKS = [
   { href: '#work', label: 'What I do' },
@@ -165,7 +164,7 @@ function Home() {
       <main id="top">
         <section className="hero">
           <div className="hero-glow" aria-hidden="true" />
-          <p className="eyebrow">Dominik Knieriemen</p>
+          <p className="eyebrow">Dominik</p>
           <h1>
             I build software that <span className="accent">quietly works</span>.
           </h1>
@@ -198,16 +197,15 @@ function Home() {
         <section id="contact" className="contact">
           <h2>Let's talk</h2>
           <p>
-            Have a project, an idea, or just want to say hi? My inbox is open.
+            Have a project, an idea, or just want to say hi? Send a message and I'll get back to
+            you.
           </p>
-          <a href={`mailto:${CONTACT_EMAIL}`} className="btn btn-primary btn-large">
-            {CONTACT_EMAIL}
-          </a>
+          <ContactForm />
         </section>
       </main>
 
       <footer className="footer">
-        <span>© {new Date().getFullYear()} Dominik Knieriemen</span>
+        <span>© {new Date().getFullYear()} Dominik</span>
       </footer>
     </>
   )
