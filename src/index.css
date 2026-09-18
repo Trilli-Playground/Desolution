@@ -539,3 +539,83 @@ a {
   color: var(--text);
   font-size: 0.95rem;
 }
+
+/* Top 10 billionaires */
+
+.top10-page {
+  padding-top: 60px;
+  padding-bottom: 60px;
+}
+
+.top10-card {
+  max-width: 560px;
+  text-align: left;
+}
+
+.top10-card h1 {
+  font-size: 1.9rem;
+  margin-top: 8px;
+}
+
+.top10-stand {
+  margin-top: 14px;
+  font-size: 0.9rem;
+  color: var(--text);
+}
+
+.top10-disclaimer {
+  margin-top: 6px;
+  font-size: 0.82rem;
+}
+
+.top10-list {
+  list-style: none;
+  margin: 28px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.top10-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  border: 1px solid var(--surface-border);
+  border-radius: 12px;
+  padding: 14px 16px;
+}
+
+.top10-rank {
+  flex-shrink: 0;
+  width: 28px;
+  text-align: center;
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 1.2rem;
+  color: var(--accent);
+}
+
+.top10-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.top10-name {
+  color: var(--text);
+  font-weight: 500;
+}
+
+.top10-meta {
+  font-size: 0.82rem;
+  color: var(--text-dim);
+}
+
+.top10-worth {
+  flex-shrink: 0;
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+}
