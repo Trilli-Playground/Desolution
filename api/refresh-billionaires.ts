@@ -58,8 +58,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       throw new Error('Ranking response was empty')
     }
 
-    const snapshotDate = new Date(data.updated_at * 1000).toISOString().slice(0, 10)
-    const fetchedAt = new Date().toISOString()
+    const fetchedAt = new Date()
+    // The API's `updated_at` is sometimes missing/zero — fall back to the
+    // actual fetch date rather than showing the 1970 epoch.
+    const snapshotDate = data.updated_at
+      ? new Date(data.updated_at * 1000).toISOString().slice(0, 10)
+      : fetchedAt.toISOString().slice(0, 10)
 
     const rows = top10.map((entry, index) => ({
       position: index + 1,
@@ -72,7 +76,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       previous_worth: entry.previous_worth,
       wealth_source: entry.source,
       snapshot_date: snapshotDate,
-      fetched_at: fetchedAt,
+      fetched_at: fetchedAt.toISOString(),
     }))
 
     const supabase = createClient(supabaseUrl, supabaseServiceRoleKey, {
