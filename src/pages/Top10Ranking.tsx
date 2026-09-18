@@ -28,13 +28,13 @@ function formatDate(isoDate: string): string {
   })
 }
 
-function Top10Billionaires() {
+function Top10Ranking() {
   const [rows, setRows] = useState<BillionaireRow[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    document.title = 'Top 10 reichste Männer – dominik.'
+    document.title = 'Top 10 reichste Menschen – dominik.'
 
     const meta = document.createElement('meta')
     meta.name = 'robots'
@@ -50,7 +50,7 @@ function Top10Billionaires() {
     const loadRanking = async () => {
       try {
         const { data, error: fetchError } = await supabase
-          .from('billionaires_top10_men')
+          .from('billionaires_top10')
           .select('position, name, country, age, current_worth, wealth_source, snapshot_date')
           .order('position')
 
@@ -75,7 +75,7 @@ function Top10Billionaires() {
     <main className="auth-page top10-page">
       <div className="auth-card top10-card">
         <span className="eyebrow">Täglich aktualisiert</span>
-        <h1>Die 10 reichsten Männer</h1>
+        <h1>Die 10 reichsten Menschen</h1>
         {snapshotDate && <p className="top10-stand">Stand: {formatDate(snapshotDate)}</p>}
         <p className="top10-disclaimer">
           Daten von einer Drittanbieter-Spiegelung der Forbes-Milliardärsliste. Kann von Forbes'
@@ -112,4 +112,4 @@ function Top10Billionaires() {
   )
 }
 
-export default Top10Billionaires
+export default Top10Ranking

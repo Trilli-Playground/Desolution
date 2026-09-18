@@ -10,7 +10,6 @@ interface RankingEntry {
   name: string
   source: string
   country: string
-  gender: string
   age: number
   image: string
   current_worth: number
@@ -23,13 +22,6 @@ interface ListResponse {
   updated_at: number
   count: number
   ranking: RankingEntry[]
-}
-
-// The API docs don't give an example value for `gender`, so match the
-// common variants defensively rather than assume a single exact string.
-function isMale(gender: string): boolean {
-  const normalized = gender.trim().toLowerCase()
-  return normalized === 'm' || normalized === 'male'
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -60,18 +52,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     const data = (await apiResponse.json()) as ListResponse
-    const topMen = data.ranking.filter((entry) => isMale(entry.gender)).slice(0, TOP_N)
+    const top10 = data.ranking.slice(0, TOP_N)
 
-    if (topMen.length === 0) {
-      throw new Error('No male entries found in the ranking response')
+    if (top10.length === 0) {
+      throw new Error('Ranking response was empty')
     }
 
     const snapshotDate = new Date(data.updated_at * 1000).toISOString().slice(0, 10)
     const fetchedAt = new Date().toISOString()
 
-    const rows = topMen.map((entry, index) => ({
+    const rows = top10.map((entry, index) => ({
       position: index + 1,
-      global_rank: entry.rank,
       source_id: entry.id,
       name: entry.name,
       country: entry.country,
@@ -88,7 +79,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       auth: { persistSession: false },
     })
 
-    const { error } = await supabase.from('billionaires_top10_men').upsert(rows)
+    const { error } = await supabase.from('billionaires_top10').upsert(rows)
 
     if (error) {
       throw new Error(`Supabase upsert failed: ${error.message}`)
